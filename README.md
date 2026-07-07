@@ -1,73 +1,131 @@
-# React + TypeScript + Vite
+# 🚚 Mini-Fulfillment Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend-приложение для управления складом и заказами. Работает в связке с [fulfillment-api](https://github.com/Rusimba/fulfillment-api) (NestJS backend).
 
-Currently, two official plugins are available:
+**Стек:** React 18, TypeScript, Vite, Axios, ESLint
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## ✨ Возможности
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- 🔐 **Регистрация и вход** (JWT-аутентификация)
+- 📦 **Просмотр и создание товаров**
+- 🛒 **Создание заказов** с автоматическим списанием остатков
+- 📋 **История заказов** текущего пользователя
+- 🎨 **Адаптивный UI**
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🛠 Стек технологий
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+![React](https://img.shields.io/badge/React_18-61DAFB?logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript_5-3178C6?logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white)
+![Axios](https://img.shields.io/badge/Axios-5A29E4?logo=axios&logoColor=white)
+![ESLint](https://img.shields.io/badge/ESLint-4B32C3?logo=eslint&logoColor=white)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 📁 Структура проекта
+src/
+├── components/          # Переиспользуемые компоненты
+├── pages/               # Страницы приложения
+│   ├── Login/
+│   ├── Register/
+│   ├── Products/
+│   └── Orders/
+├── services/            # API-клиенты (Axios)
+├── hooks/               # Кастомные React hooks
+├── types/               # TypeScript типы
+├── utils/               # Утилиты
+├── App.tsx              # Корневой компонент
+└── main.tsx             # Точка входа
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🚀 Быстрый старт
+
+### Требования
+- Node.js 18+
+- Запущенный [backend](https://github.com/Rusimba/fulfillment-api) на `http://localhost:3000`
+
+### Установка
+
+```bash
+git clone https://github.com/Rusimba/fullfillment-client.git
+cd fullfillment-client
+
+# Установить зависимости
+npm install
+
+# Настроить переменные окружения
+cp .env.example .env
+# Отредактировать .env (VITE_API_URL)
+
+# Запустить dev-сервер
+npm run dev
+
+Дев-сервер: http://localhost:5173
+⚠️ Важно: для работы нужен запущенный backend на http://localhost:3000 (или используй Docker Compose из backend-репозитория)
+
+📝 Переменные окружения
+Создай .env по аналогии с .env.example:
+VITE_API_URL=http://localhost:3000
+
+🏗 Архитектурные решения
+1. Axios для HTTP-запросов
+
+    Interceptors для автоматического добавления JWT-токена
+    Error handling для 401 (автоматический logout)
+    Base URL из .env (VITE_API_URL)
+
+2. TypeScript
+
+    Строгая типизация всех компонентов и API-ответов
+    Type-aware ESLint (tseslint.configs.recommendedTypeChecked)
+    Типы для DTO синхронизированы с backend
+
+3. Vite
+
+    HMR (Hot Module Replacement) для мгновенной разработки
+    Быстрая сборка через esbuild
+    Оптимизированный production build
+
+🔗 Backend
+Проект работает с API: fulfillment-api
+Там находится:
+
+    Вся бизнес-логика
+    Схема БД (Prisma)
+    Swagger-документация (http://localhost:3000/api)
+    JWT-аутентификация
+    Атомарные транзакции
+
+🐳 Запуск через Docker (опционально)
+Если в backend-репозитории настроен docker-compose.yml, можно запустить всё вместе:
+cd fulfillment-api
+docker-compose up --build
+Это поднимет:
+
+    PostgreSQL
+    NestJS API (порт 3000)
+    (опционально) React frontend
+
+🗺 Roadmap
+
+    State management (Zustand / Redux Toolkit)
+    React Query для кэширования API-запросов
+    React Hook Form + Zod для валидации форм
+    Темная тема
+    Unit-тесты (Vitest + React Testing Library)
+    E2E тесты (Playwright)
+
+📝 License
+MIT
+Автор: Rusimba
+GitHub: github.com/Rusimba
+
+Backend: fulfillment-api
+
+Frontend: fullfillment-client
