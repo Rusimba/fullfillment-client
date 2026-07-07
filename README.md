@@ -65,7 +65,7 @@ cp .env.example .env
 
 # Запустить dev-сервер
 npm run dev
-
+```
 Дев-сервер: http://localhost:5173
 ⚠️ Важно: для работы нужен запущенный backend на http://localhost:3000 (или используй Docker Compose из backend-репозитория)
 
